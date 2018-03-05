@@ -17,13 +17,14 @@ public:
         // write your code here
         int sa = A.size();
         int sb = B.size();
+
         if(sa == 0 || sb == 0)
             return 0;
         int dp[sa+1][sb+1];
         for(int i=0;i<sa;i++)
             dp[i][0] = 0;
         for(int j=0;j<sa;j++)
-            dp[0][j] = 0;        
+            dp[0][j] = 0;
         int max_n = 1;
         for(int i=1;i<=sa;i++) {
             for(int j=1;j<=sb;j++) {
@@ -33,12 +34,12 @@ public:
                 }
                 else
                     dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
-                
+
                 if(dp[i][j] > max_n)
                     max_n = dp[i][j];
             }
         }
-        
+
         return max_n;
     }
 
@@ -55,7 +56,7 @@ public:
             // copy to first row
             for(int j=0;j<=n;j++)
                 dp[0][j] = dp[1][j];
-            
+
             for(int k=1;k<=n;k++) {
                 if(A[i-1] == B[k-1])
                     dp[1][k] = dp[0][k-1] + 1;
@@ -63,7 +64,7 @@ public:
                     dp[1][k] = max(dp[0][k], dp[1][k-1]);
             }
         }
-        
+
         return dp[1][n];
     }
 };
@@ -72,23 +73,24 @@ void generateStr(string &s, const int size) {
     static const char alphabet[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     for(int i=0;i<size;i++) {
-       s += alphabet[rand()%sizeof(alphabet)]; 
+       s += alphabet[rand()%(sizeof(alphabet)-1) ];
     }
 }
 
 int main() {
-    int size_arr[] = {10, 50, 100, 1000, 10000};
-    sol = Solution();
+    int size_arr[] = {10, 50, 100, 500, 1000};
+    Solution sol = Solution();
 
     for(int i=0;i<5;i++) {
-        string a;
-        string b;
-        
+
         int iterations = 100;
         float totalTime1 = 0;
         float totalTime2 = 0;
         int commonSequenceSize;
-        for(int iter=0; iter<iterations;iter++) {
+        for(int iter=0;iter<iterations;iter++) {
+            string a = "";
+            string b = "";
+
             generateStr(a, size_arr[i]);
             generateStr(b, size_arr[i]);
             Timer t;
